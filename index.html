@@ -241,8 +241,8 @@
     slide(x);
     if(!('IntersectionObserver' in window)) mark(i);
   }
-  // 클릭·키보드로 넘길 때: 기본 스크롤보다 살짝 느리게 (약 0.75초)
-  var anim = null, SLIDE_MS = 750;
+  // 클릭·키보드로 넘길 때: 기본 스크롤보다 느리게 (약 0.95초)
+  var anim = null, SLIDE_MS = 950;
   function slide(x){
     if(reduce){ track.scrollLeft = x; return; }
     if(anim) cancelAnimationFrame(anim);
@@ -293,7 +293,7 @@
 
   // ---------- 카카오톡 공유: 표지 이미지 + 일정·장소 + [모바일 초대장] [오시는 길] ----------
   // Kakao Developers 앱의 JavaScript 키를 넣고, 플랫폼 > Web 에 배포 주소를 등록해야 동작
-  var KAKAO_JS_KEY = '';
+  var KAKAO_JS_KEY = '58679db58c9bd463a51db462466b9cf3';
   var SITE = location.origin + location.pathname.replace(/index\.html$/, '');
   function toast(m){ var el = document.getElementById('toast'); el.textContent = m; el.classList.add('on'); setTimeout(function(){ el.classList.remove('on'); }, 1800); }
   document.getElementById('share').addEventListener('click', function(){
