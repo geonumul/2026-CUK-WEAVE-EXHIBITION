@@ -6,12 +6,14 @@
 <title>WEAVE · 제41회 공간디자인·소비자학과 과제전시회</title>
 <meta name="description" content="2026.11.09 - 11.13 · 가톨릭대학교 김수환관 컨퍼런스룸 K366 · 오프닝 11.09 (월) 17시">
 <meta name="theme-color" content="#FAEFEE">
-<!-- 배포 후 og:image / og:url 을 실제 주소(https://...vercel.app/share.jpg)로 바꿔야 카톡 링크 미리보기가 뜹니다 -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="공간디자인·소비자학과 과제전시회에 초대합니다">
 <meta property="og:description" content="2026.11.09 - 11.13 · 가톨릭대학교 김수환관 컨퍼런스룸 K366">
-<meta property="og:image" content="/share.jpg">
-<meta property="og:url" content="/">
+<meta property="og:image" content="https://2026-cuk-weave-exhibition.vercel.app/share.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="600">
+<meta property="og:url" content="https://2026-cuk-weave-exhibition.vercel.app/">
+<link rel="canonical" href="https://2026-cuk-weave-exhibition.vercel.app/">
 <script>
   document.documentElement.className += ' js';
   // 카톡 카드의 '오시는 길' 버튼: ?go=map 으로 들어오면 바로 지도로
@@ -236,8 +238,26 @@
   function go(i){
     i = Math.max(0, Math.min(N - 1, i)); hint.classList.remove('on');
     var x = i * track.clientWidth;
-    try { track.scrollTo({left: x, behavior: reduce ? 'auto' : 'smooth'}); } catch(err) { track.scrollLeft = x; }
+    slide(x);
     if(!('IntersectionObserver' in window)) mark(i);
+  }
+  // 클릭·키보드로 넘길 때: 기본 스크롤보다 살짝 느리게 (약 0.75초)
+  var anim = null, SLIDE_MS = 750;
+  function slide(x){
+    if(reduce){ track.scrollLeft = x; return; }
+    if(anim) cancelAnimationFrame(anim);
+    var from = track.scrollLeft, d = x - from, s = null;
+    if(!d) return;
+    track.style.scrollSnapType = 'none';
+    function step(ts){
+      if(s === null) s = ts;
+      var k = Math.min(1, (ts - s) / SLIDE_MS);
+      var e = k < .5 ? 4*k*k*k : 1 - Math.pow(-2*k + 2, 3) / 2;   // easeInOutCubic
+      track.scrollLeft = from + d * e;
+      if(k < 1) anim = requestAnimationFrame(step);
+      else { anim = null; track.style.scrollSnapType = ''; track.scrollLeft = x; }
+    }
+    anim = requestAnimationFrame(step);
   }
   function mark(i){
     cur = i; sls[i].classList.add('in');
@@ -284,7 +304,7 @@
         content: {
           title: '공간디자인·소비자학과 과제전시회에 초대합니다',
           description: '2026.11.09 - 11.13\n가톨릭대학교 김수환관 컨퍼런스룸 K366',
-          imageUrl: SITE + 'share.jpg', imageWidth: 1200, imageHeight: 826,
+          imageUrl: SITE + 'share.jpg?v=2', imageWidth: 1200, imageHeight: 600,
           link: { mobileWebUrl: SITE, webUrl: SITE }
         },
         buttons: [
