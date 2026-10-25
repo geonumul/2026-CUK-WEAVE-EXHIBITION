@@ -7,8 +7,8 @@
 <meta name="description" content="2026.11.09 - 11.13 · 가톨릭대학교 김수환관 컨퍼런스룸 K366 · 오프닝 11.09 (월) 17시">
 <meta name="theme-color" content="#FAEFEE">
 <meta property="og:type" content="website">
-<meta property="og:title" content="공간디자인·소비자학과 과제전시회에 초대합니다">
-<meta property="og:description" content="2026.11.09 - 11.13 · 가톨릭대학교 김수환관 컨퍼런스룸 K366">
+<meta property="og:title" content="2026 공간디자인·소비자학과 과제전시회에 초대합니다!">
+<meta property="og:description" content="2026년 11월 09일 - 11월 13일 · 가톨릭대학교 김수환관 컨퍼런스룸 K366">
 <meta property="og:image" content="https://2026-cuk-weave-exhibition.vercel.app/share.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="600">
@@ -294,17 +294,20 @@
   // ---------- 카카오톡 공유: 표지 이미지 + 일정·장소 + [모바일 초대장] [오시는 길] ----------
   // Kakao Developers 앱의 JavaScript 키를 넣고, 플랫폼 > Web 에 배포 주소를 등록해야 동작
   var KAKAO_JS_KEY = '58679db58c9bd463a51db462466b9cf3';
+  // 메시지 템플릿 도구에서 만든 템플릿 번호 (버튼 세로 배치용). 0 이면 기본 카드(버튼 가로)로 보냄
+  var KAKAO_TEMPLATE_ID = 0;
   var SITE = location.origin + location.pathname.replace(/index\.html$/, '');
   function toast(m){ var el = document.getElementById('toast'); el.textContent = m; el.classList.add('on'); setTimeout(function(){ el.classList.remove('on'); }, 1800); }
   document.getElementById('share').addEventListener('click', function(){
     if(window.Kakao && KAKAO_JS_KEY){
       if(!Kakao.isInitialized()) Kakao.init(KAKAO_JS_KEY);
+      if(KAKAO_TEMPLATE_ID){ Kakao.Share.sendCustom({ templateId: KAKAO_TEMPLATE_ID }); return; }
       Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
-          title: '공간디자인·소비자학과 과제전시회에 초대합니다',
-          description: '2026.11.09 - 11.13\n가톨릭대학교 김수환관 컨퍼런스룸 K366',
-          imageUrl: SITE + 'share.jpg?v=2', imageWidth: 1200, imageHeight: 600,
+          title: '2026 공간디자인·소비자학과\n과제전시회에 초대합니다!',
+          description: '2026년 11월 09일 - 11월 13일\n가톨릭대학교 김수환관 컨퍼런스룸 K366',
+          imageUrl: SITE + 'card.jpg?v=1', imageWidth: 900, imageHeight: 1200,
           link: { mobileWebUrl: SITE, webUrl: SITE }
         },
         buttons: [
@@ -313,7 +316,7 @@
         ]
       });
     } else if(navigator.share){
-      navigator.share({ title: '공간디자인·소비자학과 과제전시회에 초대합니다', url: SITE }).catch(function(){});
+      navigator.share({ title: '2026 공간디자인·소비자학과 과제전시회에 초대합니다!', url: SITE }).catch(function(){});
     } else if(navigator.clipboard){
       navigator.clipboard.writeText(SITE).then(function(){ toast('링크를 복사했어요'); });
     }
